@@ -30,8 +30,10 @@ void draw() {
 
   if (recRotate>=45) {
     xposEL = xposEL + ( xspeedEL * xdirEL );
-    if (xposEL>=(width/2)-(rad/2)) {
-      xposEL= (width/2)-(rad/2);
+    xposER = xposER - ( xspeedER * xdirER );
+    if (xposEL>(width/2)-(rad/3) && xposER<(width/2)+(rad/3)) {
+      xposEL = (width/2)-(rad/3);
+      xposER = (width/2)+(rad/3);
     }
   }
 
@@ -41,13 +43,13 @@ void draw() {
   fill(#FF123E);
   noStroke();
   ellipse(xposEL, yposEL, rad, rad); // ellipse kiri
-  if (yposEL<(height/2)-(rad/2)) { // batas ellipse kiri bergerak
-    yposEL = ((height/2)-(rad/2));
+  if (yposEL < (height/2)-(rad/3)) { // batas ellipse kiri bergerak keatas
+    yposEL = (height/2)-(rad/3);
   }
 
   ellipse(xposER, yposER, rad, rad); // ellipse kanan
-  if (yposER<=((height/2)-(rad/2))) { // batas ellipse kanan bergerak
-    ydirER = 0;
+  if (yposER < (height/2)-(rad/3)) { // batas ellipse kanan bergerak
+    yposER = (height/2)-(rad/3);
   }
 
   translate(width/2, height/2);

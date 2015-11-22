@@ -1,4 +1,4 @@
-int rad = 100; // jari-jari ellipse
+float rad; // jari-jari ellipse
 float xposEL, yposEL, xposER, yposER; // Posisi awal ellipse
 
 float xspeedEL = 1.0; // Speed ellipse kiri
@@ -6,6 +6,9 @@ float yspeedEL = 1.0; // Speed ellipse kiri
 
 float xspeedER = 1.0; // Speed ellipse kanan
 float yspeedER = 1.0; // Speed ellipse kanan
+
+float scSpeed = 2.0; // Speed Scale
+int scale = 1; // scale 
 
 int xdirEL = 1; // arah gerak x ellipse kiri
 int ydirEL = 1; // arah gerak y ellipse kiri
@@ -18,6 +21,8 @@ int recRotate = 0;
 
 void setup() {
   size(800, 600);
+  rad = 100;
+  
   xposEL = rad/2;
   yposEL = height/2;
 
@@ -58,4 +63,11 @@ void draw() {
   }
   rotate(radians(recRotate));
   rect(-(rad/2), -(rad/2), rad, rad);
+
+  if ( xposEL == (width/2)-(rad/3) && xposER == (width/2)+(rad/3)) {
+    rad = rad + (scSpeed * scale);
+    if (rad>width/4) {
+      scale = 0;
+    }
+  }
 }

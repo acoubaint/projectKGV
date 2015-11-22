@@ -1,0 +1,59 @@
+int rad = 100; // jari-jari ellipse
+float xposEL, yposEL, xposER, yposER; // Posisi awal ellipse
+
+float xspeedEL = 1.0; // Speed ellipse kiri
+float yspeedEL = 1.0; // Speed ellipse kiri
+
+float xspeedER = 1.0; // Speed ellipse kanan
+float yspeedER = 1.0; // Speed ellipse kanan
+
+int xdirEL = 1; // arah gerak x ellipse kiri
+int ydirEL = 1; // arah gerak y ellipse kiri
+
+int xdirER = 1; // arah gerak x ellipse kanan
+int ydirER = 1; // arah gerak y ellipse kanan
+
+int recRotate = 0;
+
+
+void setup() {
+  size(800, 600);
+  xposEL = rad/2;
+  yposEL = height/2;
+
+  xposER = width-(rad/2);
+  yposER = height/2;
+}
+
+void draw() {
+  background(#FF7C94);
+
+  if (recRotate>=45) {
+    xposEL = xposEL + ( xspeedEL * xdirEL );
+    if (xposEL>=(width/2)-(rad/2)) {
+      xposEL= (width/2)-(rad/2);
+    }
+  }
+
+  yposEL = yposEL - ( yspeedEL * ydirEL ); // perubahan posisi y ellipse kiri
+  yposER = yposER - ( yspeedER * ydirER ); // perubahan posisi y ellipse kanan
+
+  fill(#FF123E);
+  noStroke();
+  ellipse(xposEL, yposEL, rad, rad); // ellipse kiri
+  if (yposEL<(height/2)-(rad/2)) { // batas ellipse kiri bergerak
+    yposEL = ((height/2)-(rad/2));
+  }
+
+  ellipse(xposER, yposER, rad, rad); // ellipse kanan
+  if (yposER<=((height/2)-(rad/2))) { // batas ellipse kanan bergerak
+    ydirER = 0;
+  }
+
+  translate(width/2, height/2);
+  if (recRotate<=45) {
+    recRotate=recRotate+1;
+  }
+  rotate(radians(recRotate));
+  rect(-(rad/2), -(rad/2), rad, rad);
+}

@@ -18,11 +18,10 @@ int ydirER = 1; // arah gerak y ellipse kanan
 
 int recRotate = 0;
 
-
 void setup() {
   size(800, 600);
   rad = 100;
-  
+
   xposEL = rad/2;
   yposEL = height/2;
 
@@ -33,41 +32,81 @@ void setup() {
 void draw() {
   background(#FF7C94);
 
+  // batas ellipse kiri bergerak keatas
+  if (yposEL < (height/2)-(rad/3)) { 
+    yposEL = (height/2)-(rad/3);
+  }
+
+  // batas ellipse kanan bergerak keatas
+  if (yposER < (height/2)-(rad/3)) { 
+    yposER = (height/2)-(rad/3);
+  }
+
+  // Kotak ber-rotasi sebanyak 45 setelah kedua ellipse telah bergerak keatas
+  if (yposEL == (height/2)-(rad/3) && yposER == (height/2)-(rad/3) && recRotate<=45) {
+    recRotate=recRotate+1;
+  }
+
+  // Kedua ellipse bergerak ketengah setelah kotak berotasi sebanyak 45
   if (recRotate>=45) {
-    xposEL = xposEL + ( xspeedEL * xdirEL );
-    xposER = xposER - ( xspeedER * xdirER );
+    xposEL = xposEL + ( xspeedEL * xdirEL ); // Posisi X ellipse kiri betambah X = X + ( kecepatan * 1 );
+    xposER = xposER - ( xspeedER * xdirER ); // Posisi X ellipse kanan berkurang X = X - ( kecepatan * 1 );
     if (xposEL>(width/2)-(rad/3) && xposER<(width/2)+(rad/3)) {
       xposEL = (width/2)-(rad/3);
       xposER = (width/2)+(rad/3);
     }
   }
 
-  yposEL = yposEL - ( yspeedEL * ydirEL ); // perubahan posisi y ellipse kiri
-  yposER = yposER - ( yspeedER * ydirER ); // perubahan posisi y ellipse kanan
-
-  fill(#FF123E);
-  noStroke();
-  ellipse(xposEL, yposEL, rad, rad); // ellipse kiri
-  if (yposEL < (height/2)-(rad/3)) { // batas ellipse kiri bergerak keatas
-    yposEL = (height/2)-(rad/3);
-  }
-
-  ellipse(xposER, yposER, rad, rad); // ellipse kanan
-  if (yposER < (height/2)-(rad/3)) { // batas ellipse kanan bergerak
-    yposER = (height/2)-(rad/3);
-  }
-
-  translate(width/2, height/2);
-  if (recRotate<=45) {
-    recRotate=recRotate+1;
-  }
-  rotate(radians(recRotate));
-  rect(-(rad/2), -(rad/2), rad, rad);
-
   if ( xposEL == (width/2)-(rad/3) && xposER == (width/2)+(rad/3)) {
     rad = rad + (scSpeed * scale);
     if (rad>width/4) {
+      scale = -1;
+    } else if (rad<width/8) {
+      scale = 1;
+    }
+  }
+
+  yposEL = yposEL - ( yspeedEL * ydirEL ); // perubahan posisi Y ellipse kiri
+  yposER = yposER - ( yspeedER * ydirER ); // perubahan posisi Y ellipse kanan
+
+  fill(#FF123E);
+  noStroke();
+
+  ellipse(xposEL, yposEL, rad, rad); // ellipse kiri
+
+
+  ellipse(xposER, yposER, rad, rad); // ellipse kanan
+
+  translate(width/2, height/2);
+  rotate(radians(recRotate)); //Rotasi Kotak
+  rect(-(rad/2), -(rad/2), rad, rad); // Kotak Tengah
+}
+
+//Fungsi Play and Pause
+void keyPressed() {
+  if (keyPressed) {
+    if (key == 'a' || key == 'A') { //Tekan A atau a untuk Play
+      xspeedEL = 1.0;
+      yspeedEL = 1.0;
+      xspeedER = 1.0;
+      yspeedER = 1.0;
+      scSpeed = 2.0;
+      scale = 1;
+      xdirEL = 1;
+      ydirEL = 1; 
+      xdirER = 1;
+      ydirER = 1;
+    } else if (key == 's' || key == 'S') { //Tekan s atau S untuk pause
+      xspeedEL = 0;
+      yspeedEL = 0;
+      xspeedER = 0;
+      yspeedER = 0;
+      scSpeed = 0;
       scale = 0;
+      xdirEL = 0;
+      ydirEL = 0;
+      xdirER = 0;
+      ydirER = 0;
     }
   }
 }

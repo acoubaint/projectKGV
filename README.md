@@ -1,4 +1,4 @@
 # projectKGV
 Project KGV
 
-Tugas Program Kompyter Garfik
+Program Tugas Komputer Garfik Visual
